@@ -19,9 +19,9 @@ namespace UnityStandardAssets.Effects
             float multiplier = GetComponent<ParticleSystemMultiplier>().multiplier;
 
             float r = 10*multiplier;
-            var cols = Physics.OverlapSphere(transform.position, r);
+            var colliders = Physics.OverlapSphere(transform.position, r);
             var rigidbodies = new List<Rigidbody>();
-            foreach (var col in cols)
+            foreach (var col in colliders)
             {
                 if (col.attachedRigidbody != null && !rigidbodies.Contains(col.attachedRigidbody))
                 {

@@ -152,17 +152,11 @@ public class Rocket : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    private void RespondToThrustInput() {
-
-        if (Input.GetKey(KeyCode.Space)) // can thrust while rotating
+    private void RespondToThrustInput()
+    {
+        if (Input.GetKey(KeyCode.Space) || CrossPlatformInputManager.GetButton("Jump"))
         {
-            //directionVer = CrossPlatformInputManager.GetAxis("Vertical");
             ApplyThrust();
-        }
-        else if (CrossPlatformInputManager.GetButton("Jump")) //need to DualTouchControls
-        {
-            //rigidBody.AddRelativeForce(0, 1 * mainThrust * Time.deltaTime, 0);
-            TouchControlThrust();
         }
         else
         {
@@ -194,23 +188,25 @@ public class Rocket : MonoBehaviour
         }
     }
 
-    private void RespondToRotateInput() 
+    private void RespondToRotateInput()
     {
         rigidBody.freezeRotation = true; // take manual control of the rotation
+
         if (state != State.Dying)
         {
             float rotationThisFrame = rcsThrust * Time.deltaTime;
-            if (Input.GetKey(KeyCode.A))
+
+            if (Input.GetKey(KeyCode.A) || CrossPlatformInputManager.GetButton("HorizontalLeft"))
             {
-                transform.Rotate(Vector3.forward * rotationThisFrame); //make it compatible for mobile
+                transform.Rotate(Vector3.forward * rotationThisFrame);
             }
-            else if (Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.D) || CrossPlatformInputManager.GetButton("HorizontalRight"))
             {
                 transform.Rotate(-Vector3.forward * rotationThisFrame);
             }
         }
+
         rigidBody.freezeRotation = false; // resume physics control of rotation
-        
     }
 
     private void TouchRotateInput() 
